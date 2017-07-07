@@ -116,7 +116,7 @@ const CachedImage = React.createClass({
     processSource(source) {
         const url = _.get(source, ['uri'], null);
         if (ImageCacheProvider.isCacheable(url)) {
-            const options = _.pick(this.props, ['useQueryParamsInCacheKey', 'cacheGroup']);
+            const options = _.pick(this.props, ['useQueryParamsInCacheKey', 'cacheGroup', 'progressCallback']);
             // try to get the image path from cache
             ImageCacheProvider.getCachedImagePath(url, options)
                 // try to put the image in cache if
