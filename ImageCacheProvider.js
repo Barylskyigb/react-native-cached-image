@@ -125,7 +125,7 @@ function downloadImage(fromUrl, toFile, headers = {}, progressCallback) {
                 .fetch('GET', fromUrl, headers)
                 .progress((received, total) => {
                     console.log('progress', received / total);
-                    progressCallback(received / total);
+                    if (progressCallback) progressCallback(received / total);
                 })
                 .then(res => {
                     if (Math.floor(res.respInfo.status / 100) !== 2) {
@@ -246,9 +246,10 @@ function getCachedImagePath(url, options = defaultOptions) {
 function cacheImage(url, options = defaultOptions, resolveHeaders = defaultResolveHeaders) {
     const filePath = getCachedImageFilePath(url, options);
     const dirPath = getDirPath(filePath);
+    
     return ensurePath(dirPath)
         .then(() => resolveHeaders())
-        .then(headers => downloadImage(url, filePath, headers));
+        .then(headers => downloadImage(url, filePath, headers, options.progressCallback));
 }
 
 /**
