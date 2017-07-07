@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 function getImageProps(props) {
-    return _.omit(props, ['source', 'defaultSource', 'activityIndicatorProps', 'style', 'useQueryParamsInCacheKey', 'renderImage', 'resolveHeaders']);
+    return _.omit(props, ['source', 'defaultSource', 'activityIndicatorProps', 'style', 'useQueryParamsInCacheKey', 'progressCallback', 'renderImage', 'resolveHeaders']);
 }
 
 const CACHED_IMAGE_REF = 'cachedImage';
@@ -117,7 +117,7 @@ const CachedImage = React.createClass({
     processSource(source) {
         const url = _.get(source, ['uri'], null);
         if (ImageCacheProvider.isCacheable(url)) {
-            const options = _.pick(this.props, ['useQueryParamsInCacheKey', 'cacheGroup']);
+            const options = _.pick(this.props, ['useQueryParamsInCacheKey', 'cacheGroup', 'progressCallback']);
             options.progressCallback = (progress) => this.safeSetState({loading: progress < 1, progress})
             // try to get the image path from cache
             ImageCacheProvider.getCachedImagePath(url, options)
