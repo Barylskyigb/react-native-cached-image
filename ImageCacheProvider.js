@@ -124,7 +124,6 @@ function downloadImage(fromUrl, toFile, headers = {}, progressCallback) {
                 .config({path: tmpFile})
                 .fetch('GET', fromUrl, headers)
                 .progress((received, total) => {
-                    console.log('progress', received / total);
                     if (progressCallback) progressCallback(received / total);
                 })
                 .then(res => {
