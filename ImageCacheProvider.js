@@ -122,6 +122,9 @@ function downloadImage(fromUrl, toFile, headers = {}) {
             RNFetchBlob
                 .config({path: tmpFile})
                 .fetch('GET', fromUrl, headers)
+                .progress((received, total) => {
+                    console.log('progress', received / total)
+                })
                 .then(res => {
                     if (Math.floor(res.respInfo.status / 100) !== 2) {
                         throw new Error('Failed to successfully download image');
