@@ -110,9 +110,10 @@ function ensurePath(dirPath) {
  * @param fromUrl   String source url
  * @param toFile    String destination path
  * @param headers   Object headers to use when downloading the file
+ * @param progressCallback    Function which will be called each time download progress updates
  * @returns {Promise}
  */
-function downloadImage(fromUrl, toFile, headers = {}) {
+function downloadImage(fromUrl, toFile, headers = {}, progressCallback) {
     // use toFile as the key as is was created using the cacheKey
     if (!_.has(activeDownloads, toFile)) {
         //Using a temporary file, if the download is accidentally interrupted, it will not produce a disabled file
@@ -123,7 +124,8 @@ function downloadImage(fromUrl, toFile, headers = {}) {
                 .config({path: tmpFile})
                 .fetch('GET', fromUrl, headers)
                 .progress((received, total) => {
-                    console.log('progress', received / total)
+                    console.log('progress', received / total);
+                    progressCallback(received / total);
                 })
                 .then(res => {
                     if (Math.floor(res.respInfo.status / 100) !== 2) {
