@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 function getImageProps(props) {
-    return _.omit(props, ['source', 'defaultSource', 'activityIndicatorProps', 'style', 'useQueryParamsInCacheKey', 'renderImage', 'resolveHeaders']);
+    return _.omit(props, ['source', 'defaultSource', 'activityIndicatorProps', 'style', 'useQueryParamsInCacheKey', 'progressCallback', 'renderImage', 'resolveHeaders']);
 }
 
 const CACHED_IMAGE_REF = 'cachedImage';
@@ -46,7 +46,8 @@ const CachedImage = React.createClass({
             React.PropTypes.bool,
             React.PropTypes.array
         ]).isRequired,
-        resolveHeaders: React.PropTypes.func
+        resolveHeaders: React.PropTypes.func,
+        progressCallback: React.PropTypes.func
     },
 
     getDefaultProps() {
